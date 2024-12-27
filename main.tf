@@ -2,11 +2,18 @@ provider "azurerm" {
   features {}
 }
 
-data "azurerm_resource_group" "resourcegroup_name" {
- # location            = var.location #== "prod" ? "shared-prod-vault1" : "shared-non-prod-vault1"
-  name  = var.resourcegroup  # Provide the resource group name where the Key Vault exists
+data "azurerm_key_vault" "keyvault" {
+  name                = var.keyvaultname 
+  resource_group_name = var.resourcegroup 
 }
 
+resource "azurerm_role_assignment" "secret_reader_role" {
+  for_each = var.bot_configurations
+
+  principal_id       = each.value.ad_group  # Get Object ID of the AD group
+  role_definition_name = "Key Vault Reader"  # Assign the Secret Reader role
+  scope              = data.azurerm_key_vault.keyvault.id  # Assign to the entire Key Vault
+}
 
 
 
