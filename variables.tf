@@ -1,4 +1,4 @@
-variable "keyvaultname" {
+variable "keyvault" {
   description = "Name of keyvault"
   type        = string
 }
