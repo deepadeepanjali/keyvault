@@ -1,4 +1,4 @@
-variable "kvname" {
+variable "location" {
   description = "The resource group where the Key Vault will be created"
   type        = string
 }
