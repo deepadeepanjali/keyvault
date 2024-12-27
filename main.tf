@@ -2,12 +2,18 @@ provider "azurerm" {
   features {}
 }
 
+resource "azurerm_resource_group" "rg-name" {
+  name     = var.resourcegroup  # Reference to the variable for the name
+  location = var.location             # Reference to the variable for the location
+}
+
 # Fetch the Key Vault based on environment
 #data "azurerm_key_vault" "keyvault" {
 data "azurerm_resource_group" "resourcegroup_name" {
-  name                = var.resourcegroup  # Provide the resource group name where the Key Vault exists
-  location            = var.location #== "prod" ? "shared-prod-vault1" : "shared-non-prod-vault1"  
+  name                = data.azurerm_resource_group.rg-name.name  # Provide the resource group name where the Key Vault exists
 }
+
+
 
 
 
